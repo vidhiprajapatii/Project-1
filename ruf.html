@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun ZONE Games</title>
+    <style>
+        body {
+            background-color: white;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .zoom {
+            transition: transform 1s;
+        }
+
+        .zoom:hover {
+            transform: scale(1.1);
+        }
+
+        .body {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url("./1.png");
+            background-size: cover;
+            color: white;
+        }
+
+        main {
+            text-align: center;
+        }
+
+        section h2 {
+            font-size: 35px;
+            font-weight: 200;
+            letter-spacing: 3px;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        section h1 {
+            margin: 30px 0 20px 0;
+            font-size: 55px;
+            font-weight: 700;
+            text-shadow: 2px 1px 5px black;
+            text-transform: uppercase;
+        }
+
+        section a {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 5px;
+            background-color: #00b894;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        section a:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<audio id="backgroundMusic" autoplay loop>
+    <source src="music.mp3" type="audio/mp3">
+    Your browser does not support the audio tag.
+</audio>
+
+<div class="zoom">
+    <div class="body">
+        <main>
+            <section>
+                <h2>WELCOME TO FUN ZONE</h2>
+                <h1>Let's Come & Play <span class="change_content">Memory Game</span></h1>
+                <br>
+                <a href="main2.html">Play</a>
+            </section>
+        </main>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var backgroundMusic = document.getElementById('backgroundMusic');
+        backgroundMusic.volume = 0.5;
+        backgroundMusic.play();
+    });
+</script>
+
+</body>
+</html>

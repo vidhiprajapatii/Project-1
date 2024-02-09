@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Memory Game | Javascript</title>
+    <link rel="stylesheet" type="text/css" href="easy.css">
+</head>
+
+<style>
+    #startButton {
+        padding: 15px 20px;
+        color: #fff;
+        background: #267c65;
+        border: none;
+        font-size: 1.5em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        font-weight: 600;
+		position:absolute;
+		margin:0px;
+    }
+
+    #startButton:focus {
+        color: #fff;
+        background: #8de9dd;
+    }
+
+    #winMessage {
+        font-size: 2em;
+        color: #267c65;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        display: none;
+    }
+#timing{
+ 
+color:white;
+}
+#move{
+ color:white;
+}
+</style>
+
+<body>
+<div class="container">
+    <h2>Memory Game</h2>
+    <div class="info">
+        <p id="timing">Time: <span id="timer">0</span> seconds</p>
+        <p id="move">Moves: <span id="moves">0</span></p>
+    </div>
+    <div class="game"></div>
+    <button id="startButton" onclick="startGame()">Start Game</button>
+    <button id="resetButton" onclick="resetGame()" style="display:none">Reset Game</button>
+    <div id="winMessage">You win!</div>
+</div>
+
+<script>
+    const emojis = ["&#128521","&#128521","&#128536","&#128536","&#128540","&#128540","&#128557","&#128557","&#129321","&#129321","&#129392","&#129392"];
+    const gameContainer = document.querySelector(".game");
+    const timerElement = document.getElementById("timer");
+    const movesElement = document.getElementById("moves");
+    const startButton = document.getElementById("startButton");
+    const resetButton = document.getElementById("resetButton");
+    const winMessage = document.getElementById("winMessage");
+			let backgroundAudio = document.querySelector('#background-audio');
+    let timerInterval;
+    let moves = 0;
+    let openedCards = [];
+
+    function startTimer() {
+        let seconds = 0;
+        timerInterval = setInterval(() => {
+            seconds++;
+            timerElement.textContent = seconds;
+			if(seconds == '40'){
+				resetGame();
+			}
+        }, 1000);
+    }
+
+    function resetGame() {
+	
+        clearInterval(timerInterval);
+        timerElement.textContent = "0";
+        movesElement.textContent = "0";
+        moves = 0;
+        gameContainer.innerHTML = "";
+        openedCards = [];
+        startButton.style.display = "block";
+        resetButton.style.display = "none";
+        winMessage.style.display = "none";
+    }
+
+    function checkMatch(card1, card2) {
+        if (card1.innerHTML === card2.innerHTML) {
+            card1.classList.add("boxMatch");
+            card2.classList.add("boxMatch");
+            openedCards = [];
+            if (document.querySelectorAll('.boxMatch').length === emojis.length) {
+                clearInterval(timerInterval);
+                winMessage.style.display = "block";
+            }
+        } else {
+            setTimeout(() => {
+                card1.classList.remove('boxOpen');
+                card2.classList.remove('boxOpen');
+                openedCards = [];
+            }, 500);
+        }
+    }
+
+    function cardClickHandler() {
+        if (openedCards.length < 2) {
+            this.classList.add('boxOpen');
+            openedCards.push(this);
+
+            if (openedCards.length === 2) {
+                moves++;
+                movesElement.textContent = moves;
+                checkMatch(openedCards[0], openedCards[1]);
+            }
+        }
+    }
+
+    function startGame() {
+	
+
+		
+        startButton.style.display = "none";
+        resetButton.style.display = "block";
+        const shuffledEmojis = emojis.sort(() => Math.random() - 0.5);
+        for (let i = 0; i < shuffledEmojis.length; i++) {
+            const box = document.createElement('div');
+            box.className = 'item';
+            box.innerHTML = shuffledEmojis[i];
+            box.onclick = cardClickHandler;
+            gameContainer.appendChild(box);
+        }
+        startTimer();
+    }
+</script>
+</body>
+</html>
